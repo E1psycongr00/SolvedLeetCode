@@ -25,17 +25,16 @@ class Solution:
         # 2. foreach node, find out the shortest path toward n
         dis = [float('inf') for _ in range(n+1)]
         g[n][n] = 0
-        dis[n] = 0
         
 		# (node, w)
         queue = [(0, n)]
         heapq.heapify(queue)
         while queue:
             d, u = heapq.heappop(queue)
+            if dis[u]  != float('inf'):continue
+            dis[u] = d
             for v, w in g[u].items():
 			    # find the shortest path
-                if dis[v] > w + dis[u]: 
-                    dis[v] = w + dis[u]
-                    heapq.heappush(queue, (dis[v], v))
-
+                if dis[v] == float('inf'):
+                    heapq.heappush(queue, (d+w, v))
         return path(1) % (10**9 + 7)
